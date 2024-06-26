@@ -45,8 +45,8 @@ fun HomePage(onNavigate: (route: String) -> Unit) {
             .padding(
                 top = paddingValues.calculateTopPadding(),
                 bottom = paddingValues.calculateBottomPadding(),
-                start = 12.dp,
-                end = 12.dp
+                start = 4.dp,
+                end = 4.dp
             )
             .fillMaxSize()
 
