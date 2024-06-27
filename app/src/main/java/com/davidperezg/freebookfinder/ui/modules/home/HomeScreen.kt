@@ -1,7 +1,5 @@
 package com.davidperezg.freebookfinder.ui.modules.home
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -9,9 +7,10 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -21,13 +20,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.davidperezg.freebookfinder.R
 import com.davidperezg.freebookfinder.ui.modules.home.browse_tab.BrowseTab
 import com.davidperezg.freebookfinder.ui.modules.home.reading_list_tab.ReadingListTab
-import com.davidperezg.freebookfinder.utils.Routes
 
 const val TAB_BROWSE = 0
 const val TAB_READING_LIST = 1
@@ -37,7 +33,10 @@ const val TAB_READING_LIST = 1
 fun HomePage(onNavigate: (route: String) -> Unit) {
     val tab = remember { mutableStateOf(TAB_BROWSE) }
 
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = { TopBar() },
         bottomBar = { HomePageTabRow(tab = tab) }
     ) { paddingValues ->
@@ -51,7 +50,7 @@ fun HomePage(onNavigate: (route: String) -> Unit) {
             .fillMaxSize()
 
         when (tab.value) {
-            TAB_BROWSE -> BrowseTab(tabModifier, onNavigate)
+            TAB_BROWSE -> BrowseTab(tabModifier, onNavigate, snackbarHostState)
             TAB_READING_LIST -> ReadingListTab(tabModifier)
         }
     }

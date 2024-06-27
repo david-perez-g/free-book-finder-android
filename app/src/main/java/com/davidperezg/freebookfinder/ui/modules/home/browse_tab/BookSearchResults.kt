@@ -14,10 +14,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.davidperezg.freebookfinder.ui.modules.home.browse_tab.logic.Book
+import com.davidperezg.freebookfinder.ui.modules.home.browse_tab.bookapis.Author
+import com.davidperezg.freebookfinder.ui.modules.home.browse_tab.bookapis.BookResult
 
 @Composable
-fun BookList(books: List<Book>) {
+fun BookSearchResults(books: List<BookResult>) {
     LazyColumn {
         items(books) { book ->
             Card(
@@ -33,9 +34,19 @@ fun BookList(books: List<Book>) {
                 ) {
                     Text(text = book.title, style = MaterialTheme.typography.titleMedium)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = book.description, style = MaterialTheme.typography.bodyMedium)
+                    Text(text = formatAuthors(book.agents) , style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
     }
+}
+
+fun formatAuthors(authors: List<Author>): String {
+    var s = ""
+
+    for (author in authors) {
+        s += author.person + ", "
+    }
+
+    return s.removeSuffix(", ")
 }
